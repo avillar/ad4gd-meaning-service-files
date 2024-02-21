@@ -1,0 +1,60 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+$defs:
+  str-or-array:
+    oneOf:
+      - type: string
+      - type: array
+        items:
+          type: string
+  service:
+    required:
+      - name
+      - urlPatterns
+    properties:
+      name:
+        type: string
+      description:
+        type: string
+      enabled:
+        type: boolean
+      link:
+        type: string
+      urlPatterns:
+        allOf:
+          - $ref: '#/$defs/str-or-array'
+          - minItems: 1
+      configs:
+        type: array
+        items:
+          $ref: '#/$defs/config'
+  config:
+    type: object
+    required:
+      - meaning
+    properties:
+      enabled:
+        type: boolean
+      urlPatterns:
+        $ref: '#/$defs/str-or-array'
+      queryParams:
+        type: object
+        patternProperties:
+          '.*':
+            $ref: '#/$defs/str-or-array'
+      headers:
+        type: object
+        patternProperties:
+          '.*':
+            $ref: '#/$defs/str-or-array'
+      meaning:
+        oneOf:
+          - type: string
+          - type: object
+type: object
+required:
+  - services
+properties:
+  services:
+    type: array
+    items:
+      $ref: '#/$defs/service'

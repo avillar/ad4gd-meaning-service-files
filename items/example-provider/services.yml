@@ -1,0 +1,15 @@
+services:
+  - name: Service 1
+    description: My service
+    link: https://example.com/my-service
+    urlPatterns:
+      - '^http://example\.com/my-service/api/.*'
+    configs:
+      - urlPatterns: '/my-entity/[^/]+\.csv$'
+        meaning: my-entity-csv.yaml
+      - urlPatterns: '/my-entity/[^/]+\.json(ld)?$'
+        meaning: my-entity-json.yaml
+      - headers:
+          Content-Type: 'text/csvw?'
+        meaning: default-csv.yaml
+      - meaning: default-meaning.yaml
